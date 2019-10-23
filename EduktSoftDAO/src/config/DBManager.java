@@ -3,17 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.factory;
-
-import dao.UsuarioDAO;
-import dao.implementation.UsuarioMySQL;
+package config;
 
 /**
  *
  * @author alulab14
  */
-public class UsuarioDAOFactory {
-    public UsuarioDAO getUsuarioDAO(){
-        return new UsuarioMySQL();
+public class DBManager {
+    private String databaseURL;
+    private String mysqlDriverClass;
+    private DBManager dbManager;
+    
+    public DBManager(){
+        
     }
+    
 }
