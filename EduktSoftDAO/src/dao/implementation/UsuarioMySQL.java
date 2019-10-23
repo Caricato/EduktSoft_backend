@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package factory;
+package dao.implementation;
 
 /**
  *
  * @author alulab14
  */
-public class UsuarioDAOFactory {
+public class UsuarioMySQL {
     
 }

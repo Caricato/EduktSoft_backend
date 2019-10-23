@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package implementation;
+package dao.factory;
+
+import dao.UsuarioDAO;
 
 /**
  *
  * @author alulab14
  */
-public class UsuarioMySQL {
-    
+public class UsuarioDAOFactory {
+    public UsuarioDAO getUsuarioDAO(){
+        
+    }
 }
