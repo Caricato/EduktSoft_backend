@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import model.Usuario;
 
 /**
  *
@@ -24,12 +25,11 @@ public class UsuarioMySQL implements UsuarioDAO {
     Statement st = null;
     CallableStatement cs = null;
     @Override
-    public int insertar(Object objeto) {
+    public int insertar(Usuario usuario) {
         int resultado = 0;
         try{       
-            con = DriverManager.getConnection(DBManager.url, DBManager.user, DBManager.password);
-            cs = con.prepareCall("{call INSERTAR_USUARIO(?,?,?,?,?)} ");
-            cs.setInt("_ID_EMPLEADO", usuario.getEmpleado().getId());
+            con = DBManager.getInstance().getConnection();
+            cs = con.prepareCall("{call INSERTAR_USUARIO(?,?,?,?)} ");
             cs.setString("_NOMBRE_USUARIO", usuario.getNombre());
             cs.setString("_CONTRASEÑA", usuario.getContraseña());
             cs.setBoolean("_ACTIVE", usuario.isActive());
@@ -44,10 +44,10 @@ public class UsuarioMySQL implements UsuarioDAO {
     }
 
     @Override
-    public Object encontrarPorId(int id) {
+    public Usuario encontrarPorId(int id) {
         Usuario usuario = new Usuario();
         try{
-            con = DriverManager.getConnection(DBManager.url, DBManager.user, DBManager.password);
+            con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call ENCONTRAR_USUARIO_POR_ID(?)}");
             cs.setInt("_ID_USUARIO",id);
             ResultSet rs = cs.executeQuery();
@@ -63,10 +63,11 @@ public class UsuarioMySQL implements UsuarioDAO {
     }
 
     @Override
-    public int actualizar(Object objeto) {
+    public int actualizar(Usuario usuario) {
         int resultado = 0;
+        
         try{
-            con = DriverManager.getConnection(DBManager.url, DBManager.user, DBManager.password);
+            con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call ACTUALIZAR_USUARIO(?,?,?)}");
             cs.setInt("_ID_USUARIO", usuario.getId());
             cs.setString("_NOMBRE_USUARIO", usuario.getNombre());
@@ -84,7 +85,7 @@ public class UsuarioMySQL implements UsuarioDAO {
     public int eliminar(int id) {
         int resultado = 0;
         try{
-            con = DriverManager.getConnection(DBManager.url, DBManager.user, DBManager.password);
+            con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call ELIMINAR_USUARIO(?)}");
             cs.setInt("_ID_USUARIO", id);
             resultado = cs.executeUpdate();
@@ -97,18 +98,16 @@ public class UsuarioMySQL implements UsuarioDAO {
     }
 
     @Override
-    public ArrayList<Object> listarTodos() {
+    public ArrayList<Usuario> listarTodos() {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
         try{
-            con = DriverManager.getConnection(DBManager.url, DBManager.user, DBManager.password);
+            con = DBManager.getInstance().getConnection();
             cs = con.prepareCall("{call LISTAR_USUARIO()}");
             ResultSet rs = cs.executeQuery();
             while(rs.next()){
                 Usuario usuario = new Usuario();
                 usuario.setId(rs.getInt("ID_USUARIO"));
                 usuario.setNombre(rs.getString("NOMBRE_USUARIO"));
-                usuario.getEmpleado().setId(rs.getInt("ID_EMPLEADO"));
-                usuario.getEmpleado().setNombre(rs.getString("NOMBRE_EMPLEADO"));
                 usuario.setContraseña(rs.getString("CONTRASEÑA"));
                 usuario.setActive(rs.getBoolean("ACTIVE"));
                 usuarios.add(usuario);

@@ -1,21 +1,20 @@
+package dao;
+import java.util.ArrayList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package config;
 
 /**
  *
  * @author alulab14
  */
-public class DBManager {
-    private String databaseURL;
-    private String mysqlDriverClass;
-    private DBManager dbManager;
-    
-    public DBManager(){
-        
-    }
-    
+public interface CrudDAO<T> {
+    int insertar(T objeto);
+    T encontrarPorId(int id);
+    int actualizar(T objeto);
+    int eliminar(int id);
+    ArrayList<T> listarTodos();
 }
