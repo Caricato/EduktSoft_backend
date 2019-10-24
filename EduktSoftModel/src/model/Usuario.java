@@ -1,10 +1,11 @@
 package model;
 
 public class Usuario {
-    
+ 
     private int id;
     private String nombre;
     private String contraseña;
+    private EstadoUsuario estado;
     private boolean active;
             
     public Usuario(){
@@ -13,6 +14,7 @@ public class Usuario {
     public Usuario(String nombre,String contraseña){
         this.nombre = nombre;    
         this.contraseña = contraseña;
+        this.estado = EstadoUsuario.Creado;
         this.active = true;
     }
 
@@ -46,6 +48,14 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+    
+    public void setEstado(EstadoUsuario estado) {
+        this.estado = estado;
+    }
+    
+    public EstadoUsuario getEstado() {
+        return estado;
     }
 
 }

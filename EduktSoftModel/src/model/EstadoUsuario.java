@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.factory;
-
-import dao.UsuarioDAO;
-import dao.implementation.UsuarioMySQL;
+package model;
 
 /**
  *
  * @author alulab14
  */
-public class UsuarioDAOFactory {
-    public UsuarioDAO getUsuarioDAO(){
-        return new UsuarioMySQL();
-    }
+public enum EstadoUsuario {
+    Creado,EnProceso,Activado,Deshabilitado
 }

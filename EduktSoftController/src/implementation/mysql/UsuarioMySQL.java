@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.implementation;
+package implementation.mysql;
 
 import config.DBManager;
 import dao.UsuarioDAO;
@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import model.EstadoUsuario;
 import model.Usuario;
 
 /**
@@ -29,8 +30,9 @@ public class UsuarioMySQL implements UsuarioDAO {
         int resultado = 0;
         try{       
             con = DBManager.getInstance().getConnection();
-            cs = con.prepareCall("{call INSERTAR_USUARIO(?,?,?,?)} ");
+            cs = con.prepareCall("{call INSERTAR_USUARIO(?,?,?,?,?)} ");
             cs.setString("_NOMBRE_USUARIO", usuario.getNombre());
+            cs.setString("_ESTADO",usuario.getEstado().toString());
             cs.setString("_CONTRASEÑA", usuario.getContraseña());
             cs.setBoolean("_ACTIVE", usuario.isActive());
             resultado = cs.executeUpdate();
@@ -72,6 +74,7 @@ public class UsuarioMySQL implements UsuarioDAO {
             cs.setInt("_ID_USUARIO", usuario.getId());
             cs.setString("_NOMBRE_USUARIO", usuario.getNombre());
             cs.setString("_CONTRASEÑA", usuario.getContraseña());
+            cs.setString("_ESTADO",usuario.getEstado().toString());
             resultado = cs.executeUpdate();
         }catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -109,6 +112,7 @@ public class UsuarioMySQL implements UsuarioDAO {
                 usuario.setId(rs.getInt("ID_USUARIO"));
                 usuario.setNombre(rs.getString("NOMBRE_USUARIO"));
                 usuario.setContraseña(rs.getString("CONTRASEÑA"));
+                usuario.setEstado(EstadoUsuario.valueOf(rs.getString("ESTADO")));
                 usuario.setActive(rs.getBoolean("ACTIVE"));
                 usuarios.add(usuario);
             }
